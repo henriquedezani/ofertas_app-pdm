@@ -51,35 +51,35 @@ class ItemOferta extends StatelessWidget {
           Image.network(
               'https://via.placeholder.com/100x100.png?text=Produto1'),
           SizedBox(width: 8),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Computador Intel i9 16GB",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+          // EXPANDIR O TAMANHO DO WIDGET PARA O MÁXIMO PERMITIDO.
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Computador Intel i9 16GB",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Text(
-                "www.americanas.com.br",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey[600],
+                Text(
+                  "www.americanas.com.br",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                  ),
                 ),
-              ),
-              Text(
-                "R\$ 1.234,00",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
+                Text(
+                  "R\$ 1.234,00",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              SizedBox(height: 18),
-              Container(
-                color: Colors.red,
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
+                SizedBox(height: 18),
+                Row(
+                  // mainAxisSize: MainAxisSize.max,
                   children: [
                     CircleAvatar(
                       radius: 16,
@@ -89,30 +89,33 @@ class ItemOferta extends StatelessWidget {
                         color: Colors.grey[500],
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Felipe da Silva Pestana",
-                          style: TextStyle(
-                            fontSize: 12,
+                    // EXPANDE O WIDGET PARA O TAMANHO MÁXIMO PERTMITIDO.
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Felipe da Silva Pestana",
+                            style: TextStyle(
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "25 de agosto de 2020",
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: Colors.grey[500],
+                          Text(
+                            "25 de agosto de 2020",
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey[500],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Icon(Icons.thumb_up),
                     Text("(23)"),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
