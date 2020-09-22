@@ -22,6 +22,13 @@ class ListaPage extends StatelessWidget {
           ItemOferta(),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        tooltip: "Nova Oferta",
+        onPressed: () {
+          Navigator.of(context).pushNamed('/cadastro');
+        },
+      ),
     );
   }
 }
