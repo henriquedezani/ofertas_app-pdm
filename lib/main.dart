@@ -19,6 +19,13 @@ class MyApp extends StatelessWidget {
       },
       initialRoute: '/',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          // primaryColor: Colors.yellow[800],
+          textTheme: TextTheme(
+        bodyText1: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      )),
     );
   }
 }

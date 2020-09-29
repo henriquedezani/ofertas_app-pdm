@@ -36,37 +36,54 @@ class CadastroPage extends StatelessWidget {
             children: [
               Image.network(
                   'https://via.placeholder.com/200x200.png?text=Produto1'),
+              SizedBox(height: 30),
               TextFormField(
-                decoration: InputDecoration(labelText: "Nome"),
+                decoration: InputDecoration(
+                  labelText: "Nome",
+                  hintStyle: TextStyle(
+                    color: Colors.red,
+                  ),
+                  hintText: "Nome",
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person),
+                  suffixIcon: Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  ),
+                ),
                 readOnly: false,
                 validator: (value) {
                   return validaCampo(value);
                 },
                 autovalidate: false,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 6),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
+              SizedBox(height: 20),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: "Loja",
+                  border: OutlineInputBorder(),
                 ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    labelText: "Loja",
-                    border: InputBorder.none,
-                  ),
-                  validator: (value) => validaCampo(value),
-                ),
+                validator: (value) => validaCampo(value),
               ),
+              SizedBox(height: 20),
               TextFormField(
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: "Preço"),
+                decoration: InputDecoration(
+                  labelText: "Preço",
+                  // enabledBorder: OutlineInputBorder(),
+                  border: OutlineInputBorder(),
+                ),
                 validator: validaCampo,
               ),
+              SizedBox(height: 20),
               TextFormField(
                 keyboardType: TextInputType.multiline,
                 maxLines: 5,
                 minLines: 3,
-                decoration: InputDecoration(labelText: "Descrição"),
+                decoration: InputDecoration(
+                  labelText: "Descrição",
+                  border: OutlineInputBorder(),
+                ),
                 validator: validaCampo,
               ),
             ],

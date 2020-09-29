@@ -24,6 +24,7 @@ class ListaPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).primaryColor,
         tooltip: "Nova Oferta",
         onPressed: () {
           Navigator.of(context).pushNamed('/cadastro');
