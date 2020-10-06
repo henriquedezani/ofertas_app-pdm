@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:oferta_app/detalhe.page.dart';
 import 'package:oferta_app/login.page.dart';
 import 'package:oferta_app/lista.page.dart';
 import 'package:oferta_app/cadastro.page.dart';
+import 'package:oferta_app/registro.page.dart';
 
 void main() {
   runApp(MyApp()); // Qual é a classe que eu quero executar inicialmente?
@@ -14,8 +16,10 @@ class MyApp extends StatelessWidget {
       // home: LoginPage(),
       routes: {
         '/': (context) => LoginPage(),
+        '/registro': (context) => RegistroPage(),
         '/lista': (context) => ListaPage(),
         '/cadastro': (context) => CadastroPage(),
+        '/detalhe': (context) => DetalhePage(),
       },
       initialRoute: '/',
       debugShowCheckedModeBanner: false,

@@ -44,7 +44,9 @@ class LoginPage extends StatelessWidget {
                   ),
                   FlatButton(
                     child: Text("Não tem cadastro? Clique aqui."),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/registro');
+                    },
                   ),
                   SizedBox(
                     height: 40,
