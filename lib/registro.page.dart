@@ -1,11 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistroPage extends StatelessWidget {
   var _formKey = GlobalKey<FormState>();
 
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   String validaCampo(String value) {
     if (value.isEmpty) return "Campo Obrigatório";
     return null;
+  }
+
+  String nome;
+  String email;
+  String senha;
+
+  void registraUsuario(BuildContext context) {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      createUserInFirebase(context);
+    }
+  }
+
+  Future createUserInFirebase(BuildContext context) async {
+    try {
+      var result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: senha);
+      await result.user.updateProfile(displayName: nome);
+      Navigator.of(context).pushNamed('/lista');
+    } on FirebaseAuthException catch (e) {
+      exibeErro(context, e);
+    }
+  }
+
+  void exibeErro(BuildContext context, FirebaseAuthException e) {
+    AlertDialog alert = AlertDialog(
+      actions: [
+        FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            })
+      ],
+      title: Text("Falha no registro"),
+      content: Text(e.message),
+    );
+    showDialog(
+      context: context,
+      builder: (context) => alert,
+    );
   }
 
   @override
@@ -35,6 +78,7 @@ class RegistroPage extends StatelessWidget {
                       labelText: "Nome",
                     ),
                     validator: validaCampo,
+                    onSaved: (value) => nome = value,
                   ),
                   SizedBox(
                     height: 6,
@@ -45,6 +89,7 @@ class RegistroPage extends StatelessWidget {
                       labelText: "E-mail",
                     ),
                     validator: validaCampo,
+                    onSaved: (value) => email = value,
                   ),
                   SizedBox(
                     height: 6,
@@ -56,16 +101,13 @@ class RegistroPage extends StatelessWidget {
                     ),
                     obscureText: true,
                     validator: validaCampo,
+                    onSaved: (value) => senha = value,
                   ),
                   SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
                       color: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        bool _valido = _formKey.currentState.validate();
-
-                        if (_valido) Navigator.of(context).pushNamed('/lista');
-                      },
+                      onPressed: () => registraUsuario(context),
                       child: Text(
                         "Registrar",
                         style: TextStyle(color: Colors.white),
