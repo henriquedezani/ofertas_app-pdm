@@ -1,26 +1,45 @@
 import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oferta_app/model/oferta.model.dart';
+
 class ListaPage extends StatelessWidget {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _database = FirebaseFirestore.instance;
+
+  Future sair(BuildContext context) async {
+    await _auth.signOut();
+    Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Ofertas"),
-      ),
-      body: ListView(
-        children: [
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
-          ItemOferta(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.power_settings_new),
+            onPressed: () => sair(context),
+          ),
         ],
+      ),
+      body: StreamBuilder(
+        stream: _database.collection('ofertas').snapshots(),
+        builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) return Text('Erro');
+          if (!snapshot.hasData)
+            return Center(child: CircularProgressIndicator());
+
+          return ListView.builder(
+            itemCount: snapshot.data.docs.length,
+            itemBuilder: (_, index) {
+              var _oferta = Oferta.fromJson(snapshot.data.docs[index].data());
+              return ItemOferta(_oferta);
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -35,11 +54,15 @@ class ListaPage extends StatelessWidget {
 }
 
 class ItemOferta extends StatelessWidget {
+  final Oferta oferta;
+
+  ItemOferta(this.oferta);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('/detalhe');
+        Navigator.of(context).pushNamed('/detalhe', arguments: oferta.nome);
       },
       child: Container(
         margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
@@ -70,21 +93,21 @@ class ItemOferta extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Computador Intel i9 16GB",
+                    oferta.nome,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    "www.americanas.com.br",
+                    oferta.loja,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.grey[600],
                     ),
                   ),
                   Text(
-                    "R\$ 1.234,00",
+                    "R\$ ${oferta.preco}",
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                     ),
@@ -107,13 +130,13 @@ class ItemOferta extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Felipe da Silva Pestana",
+                              oferta.userNome,
                               style: TextStyle(
                                 fontSize: 12,
                               ),
                             ),
                             Text(
-                              "25 de agosto de 2020",
+                              oferta.data.toDate().toIso8601String(),
                               style: TextStyle(
                                 fontSize: 11,
                                 color: Colors.grey[500],
@@ -123,7 +146,7 @@ class ItemOferta extends StatelessWidget {
                         ),
                       ),
                       Icon(Icons.thumb_up),
-                      Text("(23)"),
+                      Text("(${oferta.likes})"),
                     ],
                   ),
                 ],
